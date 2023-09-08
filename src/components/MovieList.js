@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
 
 const MovieList = (props) => {
 	const FavouriteComponent = props.favouriteComponent;
@@ -7,6 +8,7 @@ const MovieList = (props) => {
 		<>
 			{props.movies.map((movie, index) => (
 				<div className='image-container d-flex justify-content-start m-3'>
+				<Link to={`/movie/${movie.imdbID}`}>
 					<img src={movie.Poster} alt='movie'></img>
 					<div
 						onClick={() => props.handleFavouritesClick(movie)}
@@ -14,6 +16,7 @@ const MovieList = (props) => {
 					>
 						<FavouriteComponent />
 					</div>
+				</Link>
 				</div>
 			))}
 		</>

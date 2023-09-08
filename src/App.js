@@ -6,6 +6,10 @@ import MovieListHeading from './components/MovieListHeading';
 import SearchBox from './components/SearchBox';
 import AddFavourites from './components/AddFavourites';
 import RemoveFavourites from './components/RemoveFavourites';
+import {Routes, Route} from 'react-router-dom';
+import MovieInfo from './components/MovieInfo';
+import Home from './components/Home';
+import Testx from './components/Testx';
 
 const App = () => {
 	const [movies, setMovies] = useState([]);
@@ -55,30 +59,16 @@ const App = () => {
 		setFavourites(newFavouriteList);
 		saveToLocalStorage(newFavouriteList);
 	};
-
 	return (
 		<div className='container-fluid movie-app'>
 			<div className='row d-flex align-items-center mt-4 mb-4'>
 				<MovieListHeading heading='Movies' />
 				<SearchBox searchValue={searchValue} setSearchValue={setSearchValue} />
 			</div>
-			<div className='row'>
-				<MovieList
-					movies={movies}
-					handleFavouritesClick={addFavouriteMovie}
-					favouriteComponent={AddFavourites}
-				/>
-			</div>
-			<div className='row d-flex align-items-center mt-4 mb-4'>
-				<MovieListHeading heading='Favourites' />
-			</div>
-			<div className='row'>
-				<MovieList
-					movies={favourites}
-					handleFavouritesClick={removeFavouriteMovie}
-					favouriteComponent={RemoveFavourites}
-				/>
-			</div>
+			<Routes>
+			<Route exact path="/" element={<Home favourites={favourites} movies={movies} handleFavouritesClick={addFavouriteMovie} favouriteComponent={AddFavourites} handleFavouritesRemove={removeFavouriteMovie} favouriteComponentRemove={RemoveFavourites}/>} />
+			<Route path="/movie/:id" element={<Testx />} />
+			</Routes>
 		</div>
 	);
 };
