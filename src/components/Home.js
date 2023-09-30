@@ -1,28 +1,53 @@
-import React from 'react'
-import MovieList from './MovieList';
-import MovieListHeading from './MovieListHeading';
-import { useParams } from 'react-router-dom';
+import React, { useEffect } from "react";
+import MovieList from "./MovieList";
+import { useParams } from "react-router-dom";
 
-const Home = ({favourites, movies, handleFavouritesClick, favouriteComponent, handleFavouritesRemove, favouriteComponentRemove}) => {
+const Home = ({
+  movies,
+  handleFavouritesClick,
+  favouriteComponent,
+  handleFavouritesRemove,
+  favouriteComponentRemove,
+  setMovies,
+  allMovies,
+  favourites,
+  setFavourites,
+}) => {
+  useEffect(() => {
+    const movieFavourites = JSON.parse(
+      localStorage.getItem("react-movie-app-favourites")
+    );
 
-    return (
-<>
-        <div className='row'>
-            <MovieList movies={movies}
-					handleFavouritesClick={handleFavouritesClick}
-					favouriteComponent={favouriteComponent}/>
+    setFavourites(movieFavourites);
+  }, []);
+
+  console.log("fav", favourites);
+
+  const filterOnClick = (typeOf) => {
+    let filtMovies = allMovies.filter(function (el) {
+      return el.Type == typeOf;
+    });
+    setMovies(filtMovies);
+  };
+  return (
+    <>
+      <div>
+        <button type="button" onClick={() => filterOnClick("series")}>
+          Series
+        </button>
+        <button onClick={() => filterOnClick("movie")}>Movies</button>
+        <div className="row d-flex justify-content-center">
+          <MovieList
+            movies={movies}
+            handleFavouritesClick={handleFavouritesClick}
+            favouriteComponent={favouriteComponent}
+            favourites={favourites}
+            isFavouritesList={false}
+          />
         </div>
-        		<div className='row d-flex align-items-center mt-4 mb-4'>
-            <MovieListHeading heading='Favourites'/>
-        </div>
-                <div className='row'>
-            <MovieList movies={favourites}
-            handleFavouritesClick={handleFavouritesRemove}
-            favouriteComponent={favouriteComponentRemove}/>
-        </div>
+      </div>
     </>
-    )
-
+  );
 };
 
 export default Home;
