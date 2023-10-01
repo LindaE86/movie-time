@@ -33,7 +33,9 @@ const App = () => {
     getMovieRequest(searchValue);
     let movieFavourites = localStorage.getItem("react-movie-app-favourites");
     let movieFavouritesParsed = JSON.parse(movieFavourites);
+    if (movieFavouritesParsed != null) {
     setFavourites(movieFavouritesParsed);
+    }
     setLoadingMovies(false);
   }, [searchValue]);
 
