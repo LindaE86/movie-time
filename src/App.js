@@ -1,29 +1,26 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import MovieList from "./components/MovieList";
 import MovieListHeading from "./components/MovieListHeading";
-import SearchBox from "./components/SearchBox";
 import AddFavourites from "./components/AddFavourites";
 import RemoveFavourites from "./components/RemoveFavourites";
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import MovieInformation from "./components/MovieInformation";
 import FavouritesList from "./components/FavouritesList";
+import { MyContext } from "./context/context";
 
 const App = () => {
   const [movies, setMovies] = useState([]);
   const [allMovies, setAllMovies] = useState({});
   const [favourites, setFavourites] = useState([]);
+  const [loadingMovies, setLoadingMovies] = useState([]);
   const [searchValue, setSearchValue] = useState({});
-  const [genre, setGenre] = useState("");
 
   const getMovieRequest = async (searchValue) => {
     const url = `https://www.omdbapi.com/?s=${searchValue}&apikey=ce5f6188`;
-
     const response = await fetch(url);
     const responseJson = await response.json();
-    console.log(responseJson);
 
     if (responseJson.Search) {
       setMovies(responseJson.Search);
@@ -32,14 +29,12 @@ const App = () => {
   };
 
   useEffect(() => {
+    setLoadingMovies(true);
     getMovieRequest(searchValue);
     let movieFavourites = localStorage.getItem("react-movie-app-favourites");
-    let asd = JSON.parse(movieFavourites);
-    console.log("asdasdd", asd);
-
-    if (asd.length == 0) {
-      localStorage.setItem("react-movie-app-favourites", JSON.stringify([]));
-    }
+    let movieFavouritesParsed = JSON.parse(movieFavourites);
+    setFavourites(movieFavouritesParsed);
+    setLoadingMovies(false);
   }, [searchValue]);
 
   const saveToLocalStorage = (items) => {
@@ -47,7 +42,7 @@ const App = () => {
   };
 
   const addFavouriteMovie = (movie) => {
-    const movieId = favourites.filter((x) => x.imdbID == movie.imdbID);
+    const movieId = favourites.filter((x) => x.imdbID === movie.imdbID);
 
     if (movieId.length > 0) {
       return;
@@ -73,7 +68,6 @@ const App = () => {
       <div className="row d-flex align-items-center mb-4">
         <MovieListHeading
           heading="Movies"
-          setGenre={setGenre}
           searchValue={searchValue}
           setSearchValue={setSearchValue}
         />
@@ -83,31 +77,37 @@ const App = () => {
           exact
           path="/"
           element={
-            <Home
-              movies={movies}
-              handleFavouritesClick={addFavouriteMovie}
-              favouriteComponent={AddFavourites}
-              handleFavouritesRemove={removeFavouriteMovie}
-              favouriteComponentRemove={RemoveFavourites}
-              setMovies={setMovies}
-              allMovies={allMovies}
-              favourites={favourites}
-              favourites={favourites}
-              setFavourites={setFavourites}
-            />
+            <MyContext.Provider
+              value={{
+                favourites,
+                setFavourites,
+                movies,
+                setMovies,
+                loadingMovies,
+              }}
+            >
+              <Home
+                handleFavouritesClick={addFavouriteMovie}
+                favouriteComponent={AddFavourites}
+                setMovies={setMovies}
+                allMovies={allMovies}
+                setFavourites={setFavourites}
+              />
+            </MyContext.Provider>
           }
         />
         <Route
           exact
           path="/favourites"
           element={
-            <FavouritesList
-              handleFavouritesRemove={removeFavouriteMovie}
-              favouriteComponentRemove={RemoveFavourites}
-              favourites={favourites}
-              setFavourites={setFavourites}
-              isFavouritesList={true}
-            />
+            <MyContext.Provider
+              value={{ favourites, setFavourites, movies, setMovies }}
+            >
+              <FavouritesList
+                handleFavouritesRemove={removeFavouriteMovie}
+                favouriteComponentRemove={RemoveFavourites}
+              />
+            </MyContext.Provider>
           }
         />
         <Route path="/movie/:id" element={<MovieInformation />} />

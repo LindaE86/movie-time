@@ -1,23 +1,14 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import MovieListHeading from "./MovieListHeading";
 import MovieList from "./MovieList";
+import { MyContext } from "../context/context.js";
 
 const FavouritesList = ({
   handleFavouritesRemove,
   favouriteComponentRemove,
-  favourites,
-  setFavourites,
-  isFavouritesList,
 }) => {
-  useEffect(() => {
-    const movieFavourites = JSON.parse(
-      localStorage.getItem("react-movie-app-favourites")
-    );
-
-    setFavourites(movieFavourites);
-  }, []);
-
+  const { favourites, setFavourites } = useContext(MyContext);
   return (
     <div>
       <div className="row">
@@ -25,7 +16,6 @@ const FavouritesList = ({
           movies={favourites}
           handleFavouritesClick={handleFavouritesRemove}
           favouriteComponent={favouriteComponentRemove}
-          favourites={favourites}
           isFavouritesList={true}
         />
       </div>
