@@ -1,15 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import SearchBox from "./SearchBox";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
-const MovieListHeading = ({
-  setGenre,
-  heading,
-  searchValue,
-  setSearchValue,
-}) => {
+const MovieListHeading = ({ setSearchValue }) => {
+  const navigator = useNavigate();
+  const location = useLocation();
+
+  const [valueToSearch, setValueToSearch] = useState();
+
   return (
-    
     <nav class="justify-content-start navbar navbar-expand-lg navbar-dark bg-dark">
       <Link to="/" className="navbar-brand ms-2">
         MovieTime
@@ -18,14 +17,25 @@ const MovieListHeading = ({
       <div>
         <ul class="navbar-nav">
           <li class="nav-item active">
-            <Link to="/favourites"className="navbar-brand ms-2">Favoriter</Link>
+            <Link to="/favourites" className="navbar-brand ms-2">
+              Favoriter
+            </Link>
           </li>
         </ul>
       </div>
       <div class="d-flex justify-content-end w-100">
-        <SearchBox searchValue={searchValue} setSearchValue={setSearchValue} />
+        <SearchBox setValueToSearch={setValueToSearch} />
         <div className="ps-2">
-          <button type="button" class="btn btn-secondary">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            onClick={(e) => {
+              if (location !== "/") {
+                navigator("/");
+              }
+              setSearchValue(valueToSearch);
+            }}
+          >
             Search Movie
           </button>
         </div>
