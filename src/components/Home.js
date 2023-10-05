@@ -31,9 +31,8 @@ const Home = ({
       <div>
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
           <button
-            className={`btn btn-primary me-2 ${
-              activeButton == 1 ? "btn-secondary" : "btn-dark"
-            }`}
+            className={`btn btn-primary me-2 ${activeButton == 1 ? "btn-secondary" : "btn-dark"
+              }`}
             onClick={() => {
               filterOnClick("all");
               setActiveButton(1);
@@ -42,9 +41,8 @@ const Home = ({
             All
           </button>
           <button
-            className={`btn btn-primary me-2 ${
-              activeButton == 2 ? "btn-secondary" : "btn-dark"
-            }`}
+            className={`btn btn-primary me-2 ${activeButton == 2 ? "btn-secondary" : "btn-dark"
+              }`}
             type="button"
             onClick={() => {
               filterOnClick("series");
@@ -54,9 +52,8 @@ const Home = ({
             Series
           </button>
           <button
-            className={`btn btn-primary me-2 ${
-              activeButton == 3 ? "btn-secondary" : "btn-dark"
-            }`}
+            className={`btn btn-primary me-2 ${activeButton == 3 ? "btn-secondary" : "btn-dark"
+              }`}
             onClick={() => {
               filterOnClick("movie");
               setActiveButton(3);

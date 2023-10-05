@@ -3,7 +3,7 @@ body {
 	color: #ffffff;
 }
 
-.movie-app > .row {
+.movie-app>.row {
 	overflow-x: auto;
 	flex-wrap: nowrap;
 }
@@ -11,7 +11,7 @@ body {
 .image-container {
 	position: relative;
 	transition: transform 0.2s;
-  width: 300px;
+	width: 300px;
 }
 
 .image-container:hover {
@@ -36,13 +36,13 @@ body {
 }
 
 .card-body {
-	background-color:#141414;
+	background-color: #141414;
 	color: #ffffff;
 }
 
 .list-group-item {
-	background-color:#141414;
-	color: #ffffff;	
+	background-color: #141414;
+	color: #ffffff;
 }
 
 link {

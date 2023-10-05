@@ -35,7 +35,7 @@ const MovieInformation = () => {
         <div>Laddar</div>
       ) : (
         <div className="d-flex justify-content-center mb-2">
-          <div className="card" style={{ width: "25rem"  }}>
+          <div className="card" style={{ width: "25rem" }}>
             <img
               className="card-img-top"
               src={movieInfo.data.Poster}
